@@ -4,7 +4,7 @@
 
 https://www.acmicpc.net/problem/14890
 
-```python```
+```
 n,l = map(int,input().split(" "))
 
 arr = []
