@@ -33,5 +33,12 @@ EX) Transaction Manager, @Controller, @Transactional 등등..
 3. 프록시 패턴
 
 3가지 방법을 통해서 AOP를 구현할수 있고, Spring은 프록시 패턴을 통해서 AOP를 제공해준다.
+
 EX) Aspect, Pointcut, JointPoint, Advice 외 Interface클래스
+
+## Spring vs SpringBoot
+
+SpringBoot는 Spring에서 내장 Tomcat이 추가되고 Dependency 자동화, Jar를 통한 배포, Spring Actuator를 이용한 모니터링과 관리, XML을 통한 설정이 필요없는점이다.
+
+SpringBoot를 사용함으로써 다양한 SpringBoot의 라이브러리들을 사용할수있게 되었다.
 
