@@ -1,6 +1,6 @@
 알고리즘 기록하는 브랜치
 
-2022- 10 - 07
+## 2022- 10 - 07
 https://www.acmicpc.net/problem/14499
 
 주사위를 입체적으로 어떻게 굴러갈지 생각하는게 중요
@@ -182,7 +182,7 @@ for i in range(n):
 print(answer)
 ```
 
-2022 - 10 - 08
+## 2022 - 10 - 08
 
 https://www.acmicpc.net/problem/14890
 평범한 구현문제
@@ -260,7 +260,7 @@ for i in range(n):
 print(answer)
 ```
 ---------------------------------
-2022 - 10 - 11
+## 2022 - 10 - 11
 
 https://www.acmicpc.net/problem/16235
 
@@ -328,3 +328,56 @@ for i in treearr:
 print(answer)
 ```
 
+
+-------------------------
+## 2022-10-12
+https://www.acmicpc.net/problem/14503
+
+평범한 구현문제
+
+너무 꼬아서 생각해서 오
+
+```
+n,m = map(int,input().split(" "))
+r,c,d = map(int,input().split(" "))
+arr = []
+for i in range(n):
+    arr.append(list(map(int,input().split(" "))))
+dx = [-1,0,1,0]
+dy = [0,1,0,-1]
+err = 0 #4방향다 못가는경우 체크
+answer = 0
+while 1:
+    #1단계
+    if arr[r][c]==0:
+        arr[r][c]=2
+        answer+=1
+    if err == 4: #2-3 단계
+        #print(r,c,d,err,"in")
+        nx = r+dx[(d+2)%4]
+        ny = c+dy[(d+2)%4]
+        if arr[nx][ny]==1:
+            break
+        err=0
+        r=nx #뒤로 한칸빠질수이쓰면 빠진다.
+        c=ny
+        err=0
+        #print(r,c,d,err,"out")
+        continue
+    d = (d + 3) % 4
+    nx = r+dx[d]
+    ny = c+dy[d]
+
+    if arr[nx][ny]==1 or arr[nx][ny]==2: #벽 or 이미청소
+        err+=1
+        continue
+    elif arr[nx][ny]==0:  #청소가능
+        #print(nx,ny,d)
+        err=0
+        r=nx
+        c=ny
+        continue
+print(answer)
+
+
+```
