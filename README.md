@@ -259,5 +259,72 @@ for i in range(n):
     answer += check(i)
 print(answer)
 ```
+---------------------------------
+2022 - 10 - 11
 
+https://www.acmicpc.net/problem/16235
+
+dict를 활용해서 다양한 정보를 저장해야 했던 구현문제
+
+```
+n,m,k = map(int,input().split(" "))
+arr = []
+for i in range(n):
+    arr.append(list(map(int,input().split(" "))))
+tree = []
+treearr = {}
+for i in range(m):
+    tree = list(map(int,input().split(" ")))
+    treearr[(tree[0]-1,tree[1]-1)]=[tree[2]]
+dx = [0,0,1,-1,1,-1,1,-1]
+dy = [1,-1,0,0,-1,1,1,-1]
+temparr = [[5 for _ in range(n)] for _ in range(n)]
+answer = 0
+for i in range(k):
+    change=[]
+    savearr = treearr
+    #print(treearr)
+    for jdx,j in enumerate(savearr):
+        treearr[j].sort()
+        for kdx,k in enumerate(treearr[j]): #봄
+            if temparr[j[0]][j[1]]<k:
+                treearr[j][kdx]=-k
+            elif temparr[j[0]][j[1]]>=k:
+                #print("in")
+                temparr[j[0]][j[1]]-=k
+                treearr[j][kdx]+=1
+        #print(treearr[j],"여름전",k)
+        kdx = 0
+        treelen = len(treearr[j])
+        for k in range(treelen):
+            k = treearr[j].pop(0)
+            if k<0:
+                temparr[j[0]][j[1]]+=(-k)//2
+            else:
+                treearr[j].append(k)
+        #print(treearr,"가을전",k)
+        for kdx, k in enumerate(treearr[j]):  # 가을
+            if k%5==0 and k>0:
+                for di in range(8):
+                    if j[0]+dx[di]<0 or j[1]+dy[di]<0 or j[0]+dx[di]>=n or j[1]+dy[di]>=n:
+                        continue
+                    #print(j[0]+dx[di],j[1]+dy[di])
+                    change.append([j[0]+dx[di],j[1]+dy[di]])
+    for j in change: #가을값 변동
+        try:
+            treearr[j[0],j[1]].append(1)
+        except KeyError:
+            treearr[(j[0],j[1])]=[1]
+    for j in range(n):  #겨울
+        for k in range(n):
+            temparr[j][k]+=arr[j][k]
+    #if i==5:
+        #print(treearr,temparr)
+#print(treearr)
+#print(temparr)
+for i in treearr:
+    answer+=len(treearr[i])
+
+print(answer)
+```
 
