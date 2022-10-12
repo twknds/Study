@@ -381,3 +381,92 @@ print(answer)
 
 
 ```
+
+## 2022- 10 - 13
+
+https://www.acmicpc.net/problem/17144
+
+시간복잡도 줄이기위한 최적화가 
+
+```
+
+import copy
+r,c,t = map(int,input().split(" "))
+arr = []
+for i in range(r):
+    arr.append(list(map(int,input().split(" "))))
+
+machine = []
+def updown(top):
+    dx = [0, -1, 0, 1]
+    dy = [1, 0, -1, 0]
+    direct = 0
+    before = 0
+    x, y = top, 1
+    while True:
+        nx = x + dx[direct]
+        ny = y + dy[direct]
+        if x == top and y == 0:
+            break
+        if nx < 0 or nx >= r or ny < 0 or ny >= c:
+            direct += 1
+            continue
+        arr[x][y], before = before, arr[x][y]
+        x = nx
+        y = ny
+def updown2(top):
+    dx = [0, 1, 0, -1]
+    dy = [1, 0, -1, 0]
+    direct = 0
+    before = 0
+    x, y = top, 1
+    while True:
+        nx = x + dx[direct]
+        ny = y + dy[direct]
+        if x == top and y == 0:
+            break
+        if nx < 0 or nx >= r or ny < 0 or ny >= c:
+            direct += 1
+            continue
+        arr[x][y], before = before, arr[x][y]
+        x = nx
+        y = ny
+for k in range(t):
+    dx = [0, 0, 1, -1]
+    dy = [1, -1, 0, 0]
+    memarr = copy.deepcopy(arr)
+    for i in range(r): #확산
+        for j in range(c):
+            if memarr[i][j]==-1 and machine == []:
+                machine.append(i)
+                machine.append(i+1)
+            if memarr[i][j]>0: #미세먼지가 있으면
+                for d in range(4):
+                    nx = i+dx[d]
+                    ny = j+dy[d]
+                    num = memarr[i][j]//5
+                    if 0<=nx<r and 0<=ny<c and memarr[nx][ny]!=-1:
+                        arr[nx][ny]+=num
+                        arr[i][j]-=num
+    mx= machine[0]
+    x =mx
+    my = 0
+    mx2 = machine[1]
+    my2 = 0
+    updown(mx)
+    updown2(mx+1)
+    #print(arr)
+answer = 0
+for i in range(r):  # 확산
+    for j in range(c):
+        if arr[i][j]>0:
+            answer+=arr[i][j]
+print(answer)
+
+```
+
+
+
+
+
+
