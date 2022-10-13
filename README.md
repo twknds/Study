@@ -687,6 +687,119 @@ print(answer[0]+answer[1]*2+answer[2]*3)
 </div>
 </details>
 
+## 2022- 10 - 14
+
+https://www.acmicpc.net/problem/17143
+
+상어의 이동부분을 자동화해주는 공식을 세우는데 시간이 아주 오래걸렸음
+
+수학적 사고력이 매우 필요한 문제인거같음
+
+<details>
+<summary>code</summary>
+<div markdown="1">
+
+```python
+
+import copy
+from collections import deque
+r,c,m = map(int,input().split(" "))
+shark = []
+arr = deque([[0 for _ in range(c + 1)] for _ in range(r + 1)])
+for i in range(m):
+    shark.append(deque(map(int,input().split(" "))))
+    arr[shark[i][0]][shark[i][1]]=[shark[i][2],shark[i][3],shark[i][4]]
+dx = [0,-1,1,0,0]
+dy = [0,0,0,1,-1]
+answer = 0
+
+for i in range(1,c+1):
+    #맨처음에 상어잡이
+    for j in range(1,r+1):
+        if arr[j][i]!=0:
+            answer+=arr[j][i][2]
+            arr[j][i]=0
+            break
+    # 상어이동
+    newshark = deque([[0 for _ in range(c + 1)] for _ in range(r + 1)])
+    for j in range(1,r+1):
+        for k in range(1,c+1):
+            if arr[j][k]!=0:
+                x=j
+                y=k
+                s = arr[j][k][0]
+                d = arr[j][k][1]
+                z = arr[j][k][2]
+                if d==1:#up
+                    #가야할 방향과의 거리
+                    dlen = x-1
+                    #평균속도량
+                    s = s%((r*2)-2)
+                    if s-dlen >= r:
+                        x = r - (s-dlen)%(r-1)
+                    elif dlen < s:
+                        d = 2
+                        x = 1+s-dlen
+                    elif dlen >= s:
+                        x -= s
+                elif d==2:
+                    # 가야할 방향과의 거리
+                    dlen = r-x
+                    # 평균속도량
+                    s = s % ((r * 2) - 2)
+                    if s - dlen >= r:
+                        x =  1+(s-dlen)%(r-1)
+                    elif dlen < s:
+                        d = 1
+                        x = r - s + dlen
+                    elif dlen >= s:
+                        x += s
+
+                        #print(dlen,s,d,x,y,z,i)
+                elif d==3: #right
+                    # 가야할 방향과의 거리
+                    dlen = c - y
+                    # 평균속도량
+                    s = s % ((c * 2) - 2)
+                    #print(dlen,s,z)
+                    if s - dlen >= c:
+                        y = 1+(s-dlen)%(c-1)
+                    elif dlen < s:
+                        d = 4
+                        y = c - s + dlen
+                    elif dlen >= s:
+                        y += s
+                    #print(dlen,s)
+                elif d==4:# left
+
+                    # 가야할 방향과의 거리
+                    dlen = y - 1
+                    # 평균속도량
+                    s = s % ((c * 2) - 2)
+                    if s - dlen >= c:
+                        y = c - (s-dlen)%(c-1)
+                    elif dlen < s:
+                        d = 3
+                        y = 1 + s - dlen
+                    elif dlen >= s:
+                        y -= s
+                    #print(dlen, s, x, y,j,k, i)
+                if newshark[x][y]==0:
+                    newshark[x][y]=[s,d,z]
+                elif newshark[x][y]!=0:
+                    if newshark[x][y][2]<z:
+                        newshark[x][y] = [s,d,z]
+    arr = newshark
+    #print(arr)
+print(answer)
+
+
+```
+
+
+</div>
+</details>
+
 코드 여닫기 복붙
 <details>
 <summary>code</summary>
