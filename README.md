@@ -6,8 +6,12 @@ https://www.acmicpc.net/problem/14499
 주사위를 입체적으로 어떻게 굴러갈지 생각하는게 중요
 
 처음에 구현사항중 하나를 빼먹고 안봐서 오래걸림.
+<details>
+<summary>code</summary>
+<div markdown="1">
 
-```
+```python
+
 n,m,x,y,k = map(int,input().split(" "))
 arr = []
 for i in range(n):
@@ -82,12 +86,20 @@ for i in karr:
 
 
 ```
+</div>
+</details>
+
+
 -----------------------------
 https://www.acmicpc.net/problem/14500
 이어진 두칸의 좌표를 방문처리하고 방문한 두점에서 각각 3방향을 체크하는 bfs를 실행하는것,
 1자로된 테트리스 하나만 체크해주면 끝
 
-```
+<details>
+<summary>code</summary>
+<div markdown="1">
+```python
+
 dx = [0,0,1,-1]
 dy = [1,-1,0,0]
 n,m = map(int,input().split(" "))
@@ -182,6 +194,9 @@ for i in range(n):
 print(answer)
 ```
 
+</div>
+</details>
+
 ## 2022 - 10 - 08
 
 https://www.acmicpc.net/problem/14890
@@ -189,7 +204,13 @@ https://www.acmicpc.net/problem/14890
 
 위->아래로갈떄
 아래->위로갈때 두가지 경우로 나눠서 발판을 놓는경우를 생각하면된다.
-```
+
+<details>
+<summary>code</summary>
+<div markdown="1">
+
+```python
+
 n,l = map(int,input().split(" "))
 
 arr = []
@@ -259,14 +280,20 @@ for i in range(n):
     answer += check(i)
 print(answer)
 ```
+</div>
+</details>
 ---------------------------------
 ## 2022 - 10 - 11
 
 https://www.acmicpc.net/problem/16235
 
 dict를 활용해서 다양한 정보를 저장해야 했던 구현문제
+<details>
+<summary>code</summary>
+<div markdown="1">
 
-```
+```python
+
 n,m,k = map(int,input().split(" "))
 arr = []
 for i in range(n):
@@ -327,7 +354,8 @@ for i in treearr:
 
 print(answer)
 ```
-
+</div>
+</details>
 
 -------------------------
 ## 2022-10-12
@@ -335,9 +363,14 @@ https://www.acmicpc.net/problem/14503
 
 평범한 구현문제
 
-너무 꼬아서 생각해서 오
+너무 꼬아서 생각해서 오래걸림
 
-```
+<details>
+<summary>code</summary>
+<div markdown="1">
+
+```python
+
 n,m = map(int,input().split(" "))
 r,c,d = map(int,input().split(" "))
 arr = []
@@ -381,14 +414,19 @@ print(answer)
 
 
 ```
+</div>
+</details>
 
 ## 2022- 10 - 13
 
 https://www.acmicpc.net/problem/17144
 
-시간복잡도 줄이기위한 최적화가 
+시간복잡도 줄이기위한 최적화가 어려웠음
 
-```
+<details>
+<summary>code</summary>
+<div markdown="1">
+```python
 
 import copy
 r,c,t = map(int,input().split(" "))
@@ -464,9 +502,185 @@ for i in range(r):  # 확산
 print(answer)
 
 ```
+</div>
+</details>
+----------------------------
+
+https://www.acmicpc.net/problem/21611
+
+구현내용이 복잡해 어려웠다
+
+<details>
+<summary>code</summary>
+<div markdown="1">
+```python
+
+import copy
+n,m = map(int,input().split(" "))
+arr = []
+for i in range(n):
+    arr.append(list(map(int,input().split(" "))))
+blz = []
+sx = n//2
+sy = n//2
+answer =[ 0,0,0]
+def plus(memarr):
+    queue = []
+    temparr = []
+    for i in memarr:
+        if len(queue)!=0:
+            if i == queue[-1]:
+                queue.append(i)
+            else:
+                temparr.append(len(queue))
+                temparr.append(queue[-1])
+                queue.clear()
+                queue.append(i)
+        else:
+            queue.append(i)
+    if len(queue)!=0:
+        temparr.append(len(queue))
+        temparr.append(queue[-1])
+    return temparr
+def bomb(memarr):
+    while 1:
+        ck = 0
+        queue = []
+        tempmem = []
+        while memarr!=[]:
+            #print(memarr)
+            num = memarr.pop(0)
+            #print(queue,num)
+            if len(queue)!=0:
+                if queue[-1]!=num:
+                    if len(queue)>=4:
+                        answer[queue[-1]-1]+=len(queue)
+                        ck = 1
+                        tempmem.append(num)
+                        queue.clear()
+                    else:
+                        #print(queue,num)
+                        while queue!=[]:
+                            tempmem.append(queue.pop())
+                        queue.append(num)
+                else:
+                    queue.append(num)
+            else:
+                queue.append(num)
+        #print(queue)
+        if len(queue)!=0:
+            if len(queue)<4:
+                while queue != []:
+                    tempmem.append(queue.pop())
+            else:
+                answer[queue[0]-1]+=len(queue)
+        if ck==0:
+            break
+        #print(tempmem)
+        memarr = tempmem
+        #print(memarr)
+    return tempmem
+def spin(x,y,arr):
+    memarr = []
+    d=0
+    leng = 1
+    cnt = 0
+    for i in range(n//2):
+        for j in range(leng):
+            y-=1
+            if arr[x][y]!=0:
+                memarr.append(arr[x][y])
+        for j in range(leng):
+            x+=1
+            #print(x, y)
+            if arr[x][y]!=0:
+                memarr.append(arr[x][y])
+        leng+=1
+        for j in range(leng):
+            y+=1
+            if arr[x][y]!=0:
+                memarr.append(arr[x][y])
+        for j in range(leng):
+            x-=1
+            #print(arr[x][y], x, y)
+            if arr[x][y]!=0:
+                memarr.append(arr[x][y])
+        leng+=1
+    for j in range(leng-1):
+        y-=1
+        if arr[x][y] != 0:
+            memarr.append(arr[x][y])
+    leng= 1
+    #print(memarr)
+    memarr = bomb(memarr)
+    #print(memarr)
+    memarr = plus(memarr)
+    #print(memarr)
+    lenmem = len(memarr)  # memarr가지고 터지는곳 체크
+    #print(memarr)
+    x=sx
+    y=sy
+    temparr= [[0 for _ in range(n+1)] for _ in range(n+1)]
+    if lenmem==0:
+        return temparr
+    for i in range(n//2):
+        for j in range(leng):
+            y-=1
+            temparr[x][y]=memarr[cnt]
+            cnt+=1
+            if cnt==lenmem:
+                return temparr
+        for j in range(leng):
+            x+=1
+            temparr[x][y] = memarr[cnt]
+            cnt += 1
+            if cnt == lenmem:
+                return temparr
+        leng+=1
+        for j in range(leng):
+            y+=1
+            temparr[x][y] = memarr[cnt]
+            cnt += 1
+            if cnt == lenmem:
+                return temparr
+        #print(temparr)
+        for j in range(leng):
+            x-=1
+            #print(x, y)
+            temparr[x][y] = memarr[cnt]
+            cnt += 1
+            if cnt >= lenmem:
+                return temparr
+        leng+=1
+    for j in range(leng-1):
+        y-=1
+        temparr[x][y] = memarr[cnt]
+        cnt += 1
+        if cnt >= lenmem:
+            return temparr
+    return temparr
+for i in range(m):
+    blz.append(list(map(int,input().split(" "))))
+for d,s in blz:
+    dx = [-1, 1, 0, 0]
+    dy = [0, 0, -1, 1]
+    x=sx
+    y=sy
+    for i in range(s):
+        x=x+dx[d-1]
+        y=y+dy[d-1]
+        if 0<=x<n and 0<=y<n:
+            arr[x][y]=0
+    arr = spin(sx,sy,arr) # 자리 당기기
+    #print(arr)
+print(answer[0]+answer[1]*2+answer[2]*3)
 
 
 
+
+```
+</div>
+</details>
 
 
 
