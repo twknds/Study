@@ -426,6 +426,7 @@ https://www.acmicpc.net/problem/17144
 <details>
 <summary>code</summary>
 <div markdown="1">
+    
 ```python
 
 import copy
@@ -513,6 +514,7 @@ https://www.acmicpc.net/problem/21611
 <details>
 <summary>code</summary>
 <div markdown="1">
+    
 ```python
 
 import copy
