@@ -687,5 +687,10 @@ print(answer[0]+answer[1]*2+answer[2]*3)
 </div>
 </details>
 
-
+코드 여닫기 복붙
+<details>
+<summary>code</summary>
+<div markdown="1">
+</div>
+</details>
 
