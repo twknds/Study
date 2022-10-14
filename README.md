@@ -796,14 +796,151 @@ print(answer)
 
 ```
 
+</div>
+</details>
+
+
+https://www.acmicpc.net/problem/19238
+
+<details>
+<summary>code</summary>
+<div markdown="1">
+
+```python
+
+import copy
+from collections import deque
+n,m,oil = map(int,input().split(" "))
+shark = []
+arr = []
+guest = []
+for i in range(n):
+    arr.append(list(map(int,input().split(" "))))
+#print(arr)
+x,y = map(int,input().split(" "))
+x=x-1
+y=y-1
+arrive = [[0 for _ in range(n)] for _ in range(n)]
+for i in range(1,m+1):
+    guest = list(map(int,input().split(" ")))
+    arr[guest[0]-1][guest[1]-1] = i * 10
+    arrive[guest[2] - 1][guest[3] - 1] = i * 10
+dx = [-1,0,0,1]
+dy = [0,-1,1,0]
+
+for d in range(m):
+    minarr = [[401 for _ in range(n)] for _ in range(n)]
+    minarr[x][y] = 0
+    #print(arr[x][y],x,y)
+    if not(arr[x][y]%10==0 and arr[x][y]>0):
+        #print(arr[x][y])
+        queue = deque()
+        queue.append([x,y])
+        endpoint = 402
+        epx = -1
+        epy = -1
+        while queue != deque():
+            #print(queue)
+            x,y = queue.popleft()
+            #print(x,y,queue)
+            if minarr[x][y]>endpoint:
+                continue
+            for i in range(4):
+                nx = x+dx[i]
+                ny = y+dy[i]
+                if 0<=nx<n and 0<=ny<n:
+                    if arr[nx][ny]!=1 and minarr[nx][ny]>minarr[x][y]+1:
+                        minarr[nx][ny]=minarr[x][y]+1
+                        if arr[nx][ny]%10==0 and arr[nx][ny]>0:
+                            if endpoint>minarr[nx][ny]: # 도착점까지 거리 최소값 갱신
+                                endpoint = minarr[nx][ny]
+                                epx = nx
+                                epy = ny
+                            if endpoint == minarr[nx][ny]: #거리가 같은경우
+                                if epx>nx:
+                                    epx=nx
+                                    epy=ny
+                                elif epx==nx and epy>ny:
+                                    epy=ny
+                        elif minarr[nx][ny]<endpoint:
+                            queue.append([nx, ny])
+        #print(minarr,epx,epy) # 출발지 -> 도착지별 최소거리
+        x= epx #손님 -> 도착지
+        y= epy
+    if x==-1 and y==-1:
+        oil=-1
+        break
+    epnum = arr[x][y]
+    arr[x][y]=0
+    oil-=minarr[x][y]
+    print(oil,x,y)
+    if oil<0:
+        break
+    minarr = [[401 for _ in range(n)] for _ in range(n)]
+    minarr[x][y] = 0
+    if arrive[x][y]!=epnum:
+        queue = deque()
+        queue.append([x, y])
+        endpoint = 402
+        epx = -1
+        epy = -1
+        while queue != deque():
+            x,y = queue.popleft()
+            #print(x,y,queue)
+            if minarr[x][y]>endpoint:
+                continue
+            for i in range(4):
+                nx = x+dx[i]
+                ny = y+dy[i]
+                if 0<=nx<n and 0<=ny<n:
+                    if arr[nx][ny]!=1 and minarr[nx][ny]>minarr[x][y]+1:
+                        minarr[nx][ny]=minarr[x][y]+1
+                        if arrive[nx][ny]==epnum and endpoint>minarr[nx][ny]:
+                            endpoint=minarr[nx][ny]
+                            epx=nx
+                            epy=ny
+                        else:
+                            queue.append([nx,ny])
+        x=epx
+        y=epy
+    if x==-1 and y==-1:
+        oil=-1
+        break
+    arrive[x][y]=0
+    oil-=minarr[x][y]
+    if oil<0:
+        break
+    oil+=2*minarr[x][y]
+    print(oil,x,y)
+if oil>=0:
+    print(oil)
+else:
+    print(-1)
+
+
+```
+
 
 </div>
 </details>
 
+
+
 코드 여닫기 복붙
+2022 - 
 <details>
 <summary>code</summary>
 <div markdown="1">
+
+
+```python
+
+
+
+
+```
+
+
 </div>
 </details>
 
