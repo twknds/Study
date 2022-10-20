@@ -925,6 +925,141 @@ else:
 </details>
 
 
+2022 - 10 -- 20
+
+https://www.acmicpc.net/problem/16234
+
+
+<details>
+<summary>code</summary>
+<div markdown="1">
+
+
+```python
+
+from collections import deque
+n,l,r = map(int,input().split(" "))
+arr = []
+for i in range(n):
+    arr.append(list(map(int,input().split(" "))))
+dx = [0,1,0,-1]
+dy = [-1,0,1,0]
+queue = deque()
+answer = 0
+
+v2 = [[0 for _ in range(n)] for _ in range(n)]
+while True:
+    err = 0
+    v = [[0 for _ in range(n)] for _ in range(n)]
+    for i in range(n):
+        for j in range(n):
+            sum = 0
+            count = 0
+            memqueue = deque()
+            if v[i][j]==0 and v2[i][j]==0:
+                queue.append([i,j])
+                memqueue.append([i, j])
+                ck = 0
+            while queue!=deque():
+                x,y = queue.popleft()
+                v[x][y] = 1
+                v2[x][y] = 1
+                sum+=arr[x][y]
+                count+=1
+                for d in range(4):
+                    nx = x+dx[d]
+                    ny = y+dy[d]
+                    if 0 <= nx < n and 0 <= ny < n:
+                        if v[nx][ny]==0 and l<=abs(arr[x][y]-arr[nx][ny])<=r:
+                            queue.append([nx,ny])
+                            memqueue.append([nx,ny])
+                            v[nx][ny]=1
+                            err=1
+                            ck = 1
+                if ck==0:
+                    memqueue.popleft()
+            for x,y in memqueue:
+                arr[x][y]=sum//count
+                if v2[x][y]==1:
+                    v2 = [[0 for _ in range(n)] for _ in range(n)]
+            #print(memqueue, '--',arr)
+    if err==0:
+        break
+    answer+=1
+print(answer)
+
+
+```
+
+
+</div>
+</details>
+
+-----------------------------------------
+
+https://www.acmicpc.net/problem/2573
+
+<details>
+<summary>code</summary>
+<div markdown="1">
+
+
+```python
+
+from collections import deque
+import copy
+n,m = map(int,input().split(" "))
+arr = []
+for i in range(n):
+    arr.append(list(map(int,input().split(" "))))
+dx = [0,1,0,-1]
+dy = [-1,0,1,0]
+
+answer = 0
+def bfs(x,y):
+    queue = deque()
+    queue.append([x,y])
+    while queue != deque():
+        x1,y1 = queue.pop()
+        for d in range(4):
+            nx = x1+dx[d]
+            ny = y1+dy[d]
+            if 0<=nx<n and 0<=ny<m:
+                if arr[nx][ny]!=0 and v[nx][ny]==0:
+                    queue.append([nx,ny])
+                    v[nx][ny]=1
+                if arr[nx][ny]==0:
+                    newarr[x1][y1]-=1
+                    if newarr[x1][y1]<0:
+                        newarr[x1][y1]=0
+while True:
+    ck = 0
+    v = [[0 for _ in range(m)] for _ in range(n)]
+    newarr = copy.deepcopy(arr)
+    for i in range(n):
+        for j in range(m):
+            if arr[i][j]!=0 and v[i][j]==0:
+                v[i][j]=1
+                bfs(i,j)
+                ck+=1
+     #           print(v,i,j,answer)
+    if ck>1:
+        break
+    if ck==0:
+        answer = 0
+        break
+    answer+=1
+    #print(newarr)
+    arr = newarr
+print(answer)
+
+
+```
+
+
+</div>
+</details>
+
 
 코드 여닫기 복붙
 2022 - 
