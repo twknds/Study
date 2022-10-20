@@ -925,7 +925,7 @@ else:
 </details>
 
 
-2022 - 10 -- 20
+## 2022 - 10 - 20
 
 https://www.acmicpc.net/problem/16234
 
