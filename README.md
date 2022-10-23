@@ -566,4 +566,12 @@ CORS 기본 동작과정
 브라우저가 CORS정책 위반을 분석하는 시간은 서버의 응답이 도착한 이후이다.
 즉, CORS정책을 위반하는 리소스 요청때문에 에러가 발생하더라도 서버 쪽 로그에서는 정상응답을 했다는 로그만 남기때문에, CORS를 정확히 이해해야만 CORS에러를 해결할 수 있는것이다.
 
-
+- URL	같은 출처	이유
+https://evan-moon.github.io/about	O	스킴, 호스트, 포트가 동일
+https://evan-moon.github.io/about?q=안뇽	O	스킴, 호스트, 포트가 동일
+https://user:password@evan-moon.github.io	O	스킴, 호스트, 포트가 동일
+http://evan-moon.github.io	X	스킴이 다름
+https://api.github.io	X	호스트가 다름
+https://evan-moon.naver.com	X	호스트가 다름
+https://evan-moon.github.com	X	호스트가 다름
+https://evan-moon.github.io:8000	?	브라우저의 구현에 따라 다름
