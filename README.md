@@ -504,6 +504,10 @@ img 태그의 src에서 다른 리소스에 접근하는 것이 가능
 
 -> 출처(Origin)는 Protolcol 과 Host 그리고 Port까지 모두 합친 것을 의미한다. 자바스크립트로 Location 객체가 가지고 있는 origin 프로퍼티에 접근하여 현재 출처를 알아낼 수도 있다.
 
+이때 출처는 Protocol과 Host, 그리고 위 그림에는 나와있지 않지만 :80, :443과 같은 포트 번호까지 모두 합친 것을 의미한다. 즉, 서버의 위치를 찾아가기 위해 필요한 가장 기본적인 것들을 합쳐놓은 것이다.
+
+또한 출처 내의 포트 번호는 생략이 가능한데, 이는 각 웹에서 사용하는 HTTP, HTTPS 프로토콜의 기본 포트 번호가 정해져있기 때문이다. HTTP가 정의된 RFC 2616 문서를 보면 다음과 같이 기본 포트 번호가 함께 정의되어있는 것을 볼 수 있다.
+
 ## Same Origin / Cross Origin 차이
 
 웹에는 크게 SOP(Same Origin Policy)와 CORS(Cross Origin Resurce Sharing) 두가지 정책이 있다.
