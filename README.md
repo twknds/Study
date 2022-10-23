@@ -868,5 +868,73 @@ RESTful한 API를 구현할 필요는 없다.
 CRUD 기능을 모두 POST로만 처리하는 API, route에 resource, id 외의 정보가 들어가는 경우 등은 REST ful 하지 못하다고 할 수 있다.
 
 
+## 로드밸런서
 
+로드밸런서는 트래픽을 받아서 여러 대의 서버에 분산시키는 하드웨어 또는 소프트웨어 입니다. 
 
+부하 분산에는 L4 Load Balancer와 L7 Load Balancer가 많이 사용됩니다. L4부터 Port를 다룰 수 있기 때문입니다.
+
+한 대의 서버의 각각의 포트에 여러개의 서비스들을 운영하기 위해서 L4 Layer 위에서 작동하는 Load Balancer가 필요해진 것입니다. 
+
+이전에는 비싼 L4 하드웨어 장비를 주로 사용했지만, 현재는 MSA의 등장 등으로 L7 로드밸런싱도 많이 사용하고, AWS ELB, NginX, HaProxy등 다양한 소프트웨어를 사용하고 있습니다. 
+
+그렇다면 L4 Load Balancer와 L7 Load Balancer는 어떤 차이점이 있을까요?
+
+## 로드밸런서의 종류 
+
+L4 Load Balancer는 IP, Port 를 기준으로 스케줄링 알고리즘을 통해 부하를 분산합니다.
+
+클라이언트에서 로드밸런서(DNS)로 요청을 보냈을 때 최적의 서버로 요청을 전송하고 결과를 클라이언트에게 줍니다. 즉, 요청하는 서비스의 종류와 상관 없이 공장을 여러 개 돌리는 것입니다. 
+ 
+
+L7 Load Balancer는 L7 위에서 동작하기 때문에 IP, Port 이외에도 URI, Payload, Http Header, Cookie 등의 내용을 기준으로 부하를 분산합니다. 그래서 콘텐츠 기반 스위칭이라고도 합니다.
+
+ 
+L4 Load Balancer는 단지 부하를 분산시키는 것이라면, L7 Load Balancer는 요청의 세부적인 사항을 두고 결제만 담당하는 서버, 회원가입만을 담당하는 서버 등으로 분리해서 가볍고 작은 단위로 여러 개의 서비스를 운영하고 요청을 각각의 서버에 분산할 수 있는 것입니다.   
+
+ 
+L7 Load Balancer는 L4 Load Balancer와 다르게 데이터를 분석해서 처리가 가능하기 때문에 악의적이거나 비 정상적인 콘텐츠를 감지해 보안 지점을 구축할 수도 있는 장점이 있고, 그 만큼 자원 소모가 크다는 단점이 있습니다.
+
+- AWS
+
+1. CLB (Classic Load Balancer)
+
+Layer4, Layer7 부하 분산
+
+listen : TCP, SSL/TLS, HTTP, HTTPS 
+
+현재는 거의 사용되지 않음.
+
+ 
+
+2. ALB (Application Load Balancer)
+
+Layer7 부하 분산
+
+listen : HTTP, HTTPS, gRPC
+
+target : IP, Instance, Lambda
+
+가장 기본적
+
+ 
+
+3. NLB (Network Load Balancer)
+
+Layer4 부하 분산
+
+listen : TCP, UDP, TLS
+
+target : IP, Instance
+
+탁월한 성능
+
+ 
+
+4. GLB (Gateway Load Balancer)
+
+Layer3, Layer4 부하 분산
+
+listen : IP
+
+target : IP, Instance
