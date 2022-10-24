@@ -159,4 +159,4 @@ ex) XXX 의 이름을 가진 인원이 포함된 "팀 이름" 조회 << 의 경�
 
 ## lazy로딩 문제
 
-manytoone에서 many쪽에서 lazy로딩을 하고 반대편에서 entity객체가 인스턴스화 되어있지 않을때 외부에서 one객체로 접근해서 직렬화를 시킨다면 프록시객체를 받아 왔기때문에 serialize가 불가능하기 떄문에 serialize제가 발생하게 된다.
+manytoone에서 many쪽에서 lazy로딩을 하고 반대편에서 entity객체가 인스턴스화 되어있지 않을때 외부에서 one객체를 직렬화를 시킨다면 프록시객체를 받아 왔기때문에 serialize가 불가능하기 떄문에 serialize제가 발생하게 된다.
