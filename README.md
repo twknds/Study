@@ -1061,7 +1061,7 @@ print(answer)
 </div>
 </details>
 
-2022 - 10 - 24
+## 2022 - 10 - 24
 
 https://www.acmicpc.net/problem/1089
 
@@ -1163,7 +1163,7 @@ else:
 
 
 코드 여닫기 복붙
-2022 - 
+## 2022 - 
 <details>
 <summary>code</summary>
 <div markdown="1">
