@@ -1057,6 +1057,107 @@ print(answer)
 ```
 
 
+
+</div>
+</details>
+
+2022 - 10 - 24
+
+https://www.acmicpc.net/problem/1089
+
+<details>
+<summary>code</summary>
+<div markdown="1">
+
+
+```python
+
+
+from collections import deque
+from itertools import combinations
+import copy
+n = int(input())
+arr = []
+num = [[0,1,2,3,4,5,6,7,8,9] for _ in range(n)]
+for i in range(5):
+    arr.append(list(input()))
+def deletenum(k,numb):
+    try:
+        num[k].remove(numb)
+    except ValueError:
+        pass
+def check(k,x,y,num):
+    if x==0 and y==0:
+        deletenum(k,1)
+    if x==0 and y==1:
+        deletenum(k,1)
+        deletenum(k, 4)
+    if x==1 and y==0:
+        deletenum(k, 2)
+        deletenum(k, 3)
+        deletenum(k, 7)
+    if x==1 and y==1:
+        num[k].clear()
+    if x==1 and y==2:
+        deletenum(k,5)
+        deletenum(k, 6)
+    if x==2 and y==0:
+        deletenum(k,1)
+        deletenum(k, 7)
+    if x==2 and y==1:
+        deletenum(k, 0)
+        deletenum(k, 1)
+        deletenum(k, 7)
+    if x==3 and y==0:
+        deletenum(k, 1)
+        deletenum(k, 3)
+        deletenum(k, 4)
+        deletenum(k, 5)
+        deletenum(k, 7)
+        deletenum(k, 9)
+    if x==3 and y==1:
+        num[k].clear()
+    if x==3 and y==2:
+        deletenum(k, 2)
+    if x==4 and y==0:
+        deletenum(k, 1)
+        deletenum(k, 4)
+        deletenum(k, 7)
+    if x==4 and y==1:
+        deletenum(k, 1)
+        deletenum(k, 4)
+        deletenum(k, 7)
+for k in range(n):
+    for i in range(5):
+        for j in range(3):
+            if arr[i][j+k*4]=="#":
+                check(k,i,j,num)
+                #print(num,i,j,arr[i][j])
+sum = 0
+cnt = 1
+temp = 0
+m = 1
+#print(num)
+for i in reversed(range(n)):
+    sum= sum*len(num[i])
+    if len(num[i])==0:
+        sum = 0
+        break
+    for j in num[i]:
+        sum+=j*m*cnt
+            #print(sum,i,j)
+    #print(sum)
+    cnt = cnt*len(num[i])
+    m=m*10
+if sum==0:
+    print("-1")
+else:
+    print(sum/cnt)
+#print(sum/cnt)
+
+```
+
+
 </div>
 </details>
 
