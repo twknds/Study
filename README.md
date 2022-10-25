@@ -1161,7 +1161,103 @@ else:
 </div>
 </details>
 
+## 2022 - 10 - 25
+    
+https://www.acmicpc.net/problem/16927
+    
+<details>
+<summary>code</summary>
+<div markdown="1">
 
+
+```python
+
+from collections import deque
+import copy
+
+n,m,r = map(int, input().split(" "))
+queue = [deque() for _ in range((m+1)//2)]
+answer = [[0 for _ in range(m)] for _ in range(n)]
+arr = []
+dx = [1,0,-1,0]
+dy = [0,1,0,-1]
+for i in range(n):
+    arr.append(list(map(int,input().split(" "))))
+def reverseside(d):
+    nx = d
+    ny = d
+    cnt = 0
+    answer[nx][ny]=queue[d][cnt]
+    cnt+=1
+    for i in range(d,n-d-1):
+        nx = nx+dx[0]
+        answer[nx][ny] = queue[d][cnt]
+        cnt += 1
+        if cnt == len(queue[d]):
+            break
+    #print(queue)
+    for i in range(d,m-d-1):
+        ny = ny+dy[1]
+        answer[nx][ny] = queue[d][cnt]
+        cnt += 1
+        if cnt==len(queue[d]):
+            break
+    #print(queue)
+    if d != n-d-1 and d != m-d-1:
+        for i in range(d,n-d-1):
+            nx = nx+dx[2]
+            answer[nx][ny] = queue[d][cnt]
+            cnt += 1
+            if cnt == len(queue[d]):
+                break
+    #    print(queue)
+        for i in range(d,m-d-2):
+            ny = ny+dy[3]
+            answer[nx][ny] = queue[d][cnt]
+            cnt += 1
+            if cnt == len(queue[d]):
+                break
+    #    print(queue)
+def side(d):
+    nx = d
+    ny = d
+    queue[d].append(arr[nx][ny])
+   #print(d,n-d-1,m-d-1)
+    for i in range(d,n-d-1):
+        nx = nx+dx[0]
+        queue[d].append(arr[nx][ny])
+    #print(queue)
+    for i in range(d,m-d-1):
+        ny = ny+dy[1]
+        queue[d].append(arr[nx][ny])
+    #print(queue)
+    if d != n-d-1 and d != m-d-1:
+        for i in range(d,n-d-1):
+            nx = nx+dx[2]
+            queue[d].append(arr[nx][ny])
+    #    print(queue)
+        for i in range(d,m-d-2):
+            ny = ny+dy[3]
+            queue[d].append(arr[nx][ny])
+    #    print(queue)
+for d in range(min((n+1)//2,(m+1)//2)):
+    side(d)
+    queue[d].rotate(r)
+    #print(queue[d])
+    reverseside(d)
+
+print(*answer)
+
+
+
+```
+
+
+</div>
+</details>
+
+    
+    
 코드 여닫기 복붙
 ## 2022 - 
 <details>
