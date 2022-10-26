@@ -160,3 +160,39 @@ ex) XXX 의 이름을 가진 인원이 포함된 "팀 이름" 조회 << 의 경�
 ## lazy로딩 문제
 
 manytoone에서 many쪽에서 lazy로딩을 하고 반대편에서 entity객체가 인스턴스화 되어있지 않을때 외부에서 one객체를 직렬화를 시킨다면 프록시객체를 받아 왔기때문에 serialize가 불가능하기 떄문에 serialize제가 발생하게 된다.
+
+----------------------------------
+
+## @Controller vs @RestController
+
+RestController는 전자에 @RequestBody 가 씌워진 형태로 Json형태로 Key,Value 정보를 주고받는것이다.
+
+Controller는 View를 반환하기 위해서 사용되고 응답은 인자로 들어온 servlet으로 반환한다.
+
+Controller가 데이터를 반환하기 위해서는 viewResolver대신 httpmessageConverter인터페이스가 작동하며 데이터형태에 맞춰서 메서드가 작동된다.
+
+## RestTemplate
+
+서버단에서 Rest API요청을 하기위해서 사용되는 템플릿
+
+현재는 사용이 지양되고 있다 (WebClient 사용 지향)
+
+동작원리
+
+1. 애플리케이션 내부에서 REST API에 요청하기 위해 RestTemplate의 메서드를 호출한다.
+
+2. RestTemplate은 MessageConverter를 이용해 java object를 request body에 담을 message(JSON etc.)로 변환한다. 메시지 형태는 상황에 따라 다름
+
+3. ClientHttpRequestFactory에서 ClientHttpRequest을 받아와 요청을 전달한다.
+
+4. 실질적으로 ClientHttpRequest가 HTTP 통신으로 요청을 수행한다.
+
+5. RestTemplate이 에러핸들링을 한다.
+
+6. ClientHttpResponse에서 응답 데이터를 가져와 오류가 있으면 처리한다.
+
+7. MessageConverter를 이용해 response body의 message를 java object로 변환한다.
+
+8. 결과를 애플리케이션에 돌려준다.
+
+※ RestTemplate은 통신 과정을 ClientHttpRequestFactory(ClientHttpRequest, ClientHttpResponse)에 위임합니다. ClientHttpRequestFactory의 실체는 HttpURLConnection, Apache HttpComponents, HttpClient와 같은 HTTP Client
