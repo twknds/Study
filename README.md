@@ -275,6 +275,19 @@ final키워드를 통해서 객체를 상수화시켜 외부에서 변환시킬�
 
 ## Collection Framework
 
+- List : 
+
+LinkedList , 
+
+- Map : Key-value형식의 자료구조
+
+HashMap : 기본적인 맵자료구조로써 저장값이 순서대로 들어가지 않고 마음대로이다. 순서대로 넣고싶으면 LinkedHashMap을 사용할것 (thread-safe하지 않다)
+
+TreeMap : HashMap에서 Key값이 정렬된 형태이다. 매번 정렬을 하므로 데이터양이 많아지면 속도가 느려짐
+
+LinkedHashMap : 순서대로 들어가는 HashMap
+
+HashTable : thread-safe한 HashMap
 
 
 ## 어노테이션이란?
