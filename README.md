@@ -1256,6 +1256,161 @@ print(*answer)
 </div>
 </details>
 
+## 2022 - 10 - 29
+
+우아한 테크 코스 프리코스 문제들
+
+https://github.com/twknds/java-onboarding
+
+코드들 
+
+https://github.com/woowacourse-precourse/java-onboarding/pull/578
+    
+    
+## 2022 - 11 - 03
+
+A와 B
+
+https://www.acmicpc.net/problem/12904
+
+<details>
+<summary>code</summary>
+<div markdown="1">
+
+
+```python
+
+from collections import deque
+import copy
+def func(arr1,goal,dep,flag):
+    #print(arr1,dep,maxdep)
+    if dep==maxdep:
+        if flag == 1:
+            arr1 = list(arr1)
+            arr1 = deque(arr1[::-1])
+        if arr1 == goal:
+            return 1
+        else:
+            return 0
+    temp = copy.deepcopy(arr1)
+    if flag==0:
+        temp.append("A")
+    else:
+        temp.appendleft("A")
+    if func(temp,goal,dep+1,flag) == 1:
+        return 1
+    temp = copy.deepcopy(arr1)
+    #print(arr1, temp)
+    if flag==0:
+        temp.appendleft("B")
+    else:
+        temp.append("B")
+    flag = (flag+1)%2
+    if func(temp,goal,dep+1,flag) == 1:
+        return 1
+    return 0
+arr1 = deque(input())
+arr2 = deque(input())
+maxdep = len(arr2)-len(arr1)
+#print(arr1,arr2)
+print(func(arr1,arr2,0,0))
+
+
+
+```
+
+
+</div>
+</details>
+
+    
+## 2022 - 11 - 07
+
+헨리
+
+https://www.acmicpc.net/problem/10253
+
+java로 알고리즘을 푸는 연습을 하고있다.
+
+<details>
+<summary>code</summary>
+<div markdown="1">
+
+
+```java
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+
+public class Main {
+    public static int gcd(int a, int b)
+    {
+        if (b == 0)
+        {
+            return a;
+        } else
+            return gcd(b, a % b);
+    }
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int n = Integer.parseInt(br.readLine());
+        List<Integer> answer = new ArrayList<Integer>();
+        int gcds =0 ;
+        for (int i=0;i<n;i++){
+            String[] arr = br.readLine().split(" ");
+            int head = Integer.parseInt(arr[0]);
+            int tail = Integer.parseInt(arr[1]);
+            int minNum = 0;
+            while (head!=1){
+
+                if (tail%head==0){
+                    minNum = tail/head;
+                }else {
+                    minNum = (tail / head) + 1;
+                }
+                head = head*minNum-tail;
+                tail = tail*minNum;
+                gcds = gcd(head,tail);
+
+                head = head/gcds;
+                tail = tail/gcds;
+            }
+            answer.add(tail);
+        }
+        for ( int i = 0 ;i< n; i ++) {
+            System.out.println(answer.get(i));
+        }
+    }
+}
+
+
+
+```
+
+
+</div>
+</details>
+
+    
+ 
+## 2022 - 
+<details>
+<summary>code</summary>
+<div markdown="1">
+
+
+```python
+
+
+
+
+```
+
+
+</div>
+</details>
     
     
 코드 여닫기 복붙
