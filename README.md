@@ -1,11 +1,13 @@
 알고리즘 기록하는 브랜치
 
 ## 2022- 10 - 07
+
 https://www.acmicpc.net/problem/14499
 
 주사위를 입체적으로 어떻게 굴러갈지 생각하는게 중요
 
 처음에 구현사항중 하나를 빼먹고 안봐서 오래걸림.
+
 <details>
 <summary>code</summary>
 <div markdown="1">
@@ -86,6 +88,7 @@ for i in karr:
 
 
 ```
+                
 </div>
 </details>
 
@@ -93,6 +96,7 @@ for i in karr:
 -----------------------------
     
 https://www.acmicpc.net/problem/14500
+    
 이어진 두칸의 좌표를 방문처리하고 방문한 두점에서 각각 3방향을 체크하는 bfs를 실행하는것,
 1자로된 테트리스 하나만 체크해주면 끝
 
