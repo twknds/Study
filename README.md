@@ -103,6 +103,7 @@ https://www.acmicpc.net/problem/14500
 <details>
 <summary>code</summary>
 <div markdown="1">
+    
 ```python
 
 dx = [0,0,1,-1]
@@ -284,7 +285,9 @@ answer = 0
 for i in range(n):
     answer += check(i)
 print(answer)
+    
 ```
+    
 </div>
 </details>
     
