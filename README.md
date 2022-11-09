@@ -1405,15 +1405,181 @@ https://github.com/woowacourse-precourse/java-baseball/pull/311
 
 
  
-## 2022 - 
+## 2022 - 11 - 09
+ 
+ https://school.programmers.co.kr/learn/courses/30/lessons/118670
+ 
+ 오랜만에 프로그래머스에서 풀었다 자바는 ide가 없으니 역시 불편하다..
+
 <details>
 <summary>code</summary>
 <div markdown="1">
 
 
-```python
+```java
+
+import java.util.*;
+
+class Solution {
+    private void rcToanswer(int[][] rc,int[][] answer,List<Integer> arrNum){
+        int arrCnt=0;
+        for (int point : arrNum){
+            for (int j =0;j<rc[0].length;j++){
+                answer[arrCnt][j]=rc[point][j];
+            }
+            arrCnt++;
+        }
+        Collections.sort(arrNum);
+        for (int i=0;i<rc.length;i++){
+            for (int j =0;j<rc[0].length;j++){
+                rc[i][j]=answer[i][j];
+            }
+        }
+    }
+    private void commandRotate(int[][] rc,int command){
+        List<Integer> sideArr = new ArrayList<>();
+        for (int i = 0 ;i<rc[0].length;i++){
+            sideArr.add(rc[0][i]);
+        }
+        for (int i = 1 ;i<rc.length;i++){
+            sideArr.add(rc[i][rc[0].length-1]);
+        }
+        for (int i = rc[0].length-2 ;i>=0;i--){
+            sideArr.add(rc[rc.length-1][i]);
+        }
+        for (int i = rc.length-2 ;i>=1;i--){
+            sideArr.add(rc[i][0]);
+        }
+        Collections.rotate(sideArr,command);
+        int cnt = 0;
+        for (int i = 0 ;i<rc[0].length;i++){
+            rc[0][i]=sideArr.get(cnt);
+            cnt++;
+        }
+        for (int i = 1 ;i<rc.length;i++){
+            rc[i][rc[0].length-1]=sideArr.get(cnt);
+            cnt++;
+        }
+        for (int i = rc[0].length-2 ;i>=0;i--){
+            rc[rc.length-1][i]=sideArr.get(cnt);
+            cnt++;
+        }
+        for (int i = rc.length-2 ;i>=1;i--){
+            rc[i][0]=sideArr.get(cnt);
+            cnt++;
+        }
+        
+    }
+    public int[][] solution(int[][] rc, String[] operations) {
+        int[][] answer = new int[rc.length][rc[0].length];
+        int arrCnt = -1; 
+        int[] commandLine = new int[101];
+        List<Integer> arrNum = new ArrayList<>();      
+        for ( int i =0;i< rc.length;i++){
+            arrNum.add(i);
+        }
+        System.out.println(rc[0].length);
+        String postCommand= new String("null");
+        for (String command : operations){            
+            if (postCommand!=command){
+                postCommand=command;
+                arrCnt++;
+                if(command.equals("Rotate")==true){
+                    commandLine[arrCnt]=1;
+                }else{
+                    commandLine[arrCnt]=-1;
+                }
+            } else{
+                if(command.equals("Rotate")==true){
+                    commandLine[arrCnt]++;
+                }else{
+                    commandLine[arrCnt]--;
+                }
+            }
+            
+        }
+        for (int i=0;i<=arrCnt;i++){          
+            int command=commandLine[i];
+            if (command>0){
+                commandRotate(rc,command);
+            }    
+            else if(command<0){
+                Collections.rotate(arrNum,-command);
+            }    
+            rcToanswer(rc,answer,arrNum);            
+        }        
+        return answer;
+    }
+}
 
 
+```
+
+
+
+</div>
+</details>
+
+https://school.programmers.co.kr/learn/courses/30/lessons/118668
+
+<details>
+<summary>code</summary>
+<div markdown="1">
+
+
+```java
+
+import java.util.*;
+class Solution {
+    public int solution(int alp, int cop, int[][] problems) {
+        int max_x = 0;
+        int max_y = 0;
+        Map<Integer,Integer> dir = new HashMap<>();
+        for(int i =0; i<problems.length;i++){
+            max_x=Math.max(problems[i][0],max_x);
+            max_y=Math.max(problems[i][1],max_y);
+        }
+        if (max_x<=alp && max_y<=cop){
+            return 0;
+        }
+        if (alp>max_x){
+            max_x=alp;
+        }
+        if(cop>max_y){
+            max_y=cop;
+        }
+        int[][] dp = new int[200][200];
+        for (int i = alp;i<=max_x;i++){
+            for(int j = cop;j<=max_y;j++){
+                dp[i][j]=Integer.MAX_VALUE;
+            }
+        }
+        dp[alp][cop]=0;
+        for (int i = alp;i<=max_x;i++){
+            for(int j = cop;j<=max_y;j++){                
+                dp[i+1][j]=Math.min(dp[i][j]+1,dp[i+1][j]);
+                dp[i][j+1]=Math.min(dp[i][j]+1,dp[i][j+1]);
+                for (int[] x: problems){
+                    if (x[0]<=i && x[1]<=j){
+                        if (i+x[2]>max_x && j+x[3]>max_y){
+                            dp[max_x][max_y]=Math.min(dp[i][j]+x[4],dp[max_x][max_y]);
+                        }
+                        else if (i+x[2]>max_x){
+                            dp[max_x][j+x[3]]=Math.min(dp[i][j]+x[4],dp[max_x][j+x[3]]);
+                        }
+                        else if (j+x[3]>max_y){
+                            dp[i+x[2]][max_y]=Math.min(dp[i][j]+x[4],dp[i+x[2]][max_y]);
+                        }
+                        else if (i+x[2]<=max_x && j+x[3]<=max_y){
+                            dp[i+x[2]][j+x[3]]=Math.min(dp[i][j]+x[4],dp[i+x[2]][j+x[3]]);
+                        }
+                    }
+                }
+            }
+        }
+        return dp[max_x][max_y];
+    }
+}
 
 
 ```
@@ -1421,6 +1587,7 @@ https://github.com/woowacourse-precourse/java-baseball/pull/311
 
 </div>
 </details>
+
     
     
 코드 여닫기 복붙
