@@ -1595,6 +1595,106 @@ class Solution {
 </div>
 </details>
 
+## 2022 - 11 - 11
+
+https://www.acmicpc.net/problem/5430
+
+java 스트링빌더를 쓰는것과 그냥 for문을 통한 출력의 시간복잡도 차이에 대해서 알게되었다.
+
+<details>
+<summary>code</summary>
+<div markdown="1">
+
+
+```java
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+
+class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int n;
+        char[] com;
+        n=Integer.parseInt(br.readLine());
+        LinkedList<String> answer2 = new LinkedList<>();
+        String[] answer = new String[n];
+        StringBuilder sb = new StringBuilder();
+        int err;
+        int flag;
+        for (int i =0;i<n;i++) {
+            int m;
+            com = br.readLine().toCharArray();
+            int r = 0;
+            m = Integer.parseInt(br.readLine());
+            String[] arr;
+            String temp =br.readLine();
+            temp=temp.replaceAll("[^,0-9]","");
+            arr = temp.split(",");
+            answer2 = new LinkedList<String>(Arrays.asList(arr));
+            if (arr[0].equals("")==true) {
+                answer2.removeFirst();
+            }
+            err=0;
+            flag=0;
+            for (char command : com){
+                if (command == 'R'){
+                    flag = (flag+1)%2;
+                }
+                else{
+                    if(flag==0){
+                        try {
+                            answer2.removeFirst();
+                        }catch (NoSuchElementException e){
+                            err=1;
+                            break;
+                        }
+                    }else{
+                        try {
+                            answer2.removeLast();
+                        }catch (NoSuchElementException e){
+                            err=1;
+                            break;
+                        }
+                    }
+                }
+            }
+            if(err==1){
+                sb.append("error\n");
+                continue;
+            }
+            sb.append('[');
+            if(answer2.size()>0){
+                if(flag==0) {
+                    sb.append(answer2.pollFirst());
+                    while(!answer2.isEmpty()) {
+                        sb.append(',').append(answer2.pollFirst());
+                    }
+                }
+                else {
+                    sb.append(answer2.pollLast());
+
+                    while(!answer2.isEmpty()) {
+                        sb.append(',').append(answer2.pollLast());
+                    }
+                }
+            }
+            sb.append("]\n");
+        }
+        System.out.println(sb);
+    }
+}
+
+
+
+
+```
+
+
+</div>
+</details>    
     
     
 코드 여닫기 복붙
