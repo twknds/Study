@@ -1697,6 +1697,12 @@ class Main {
 </details>    
     
     
+## 2022 - 11 - 15
+
+우테코 프리코스 3주차
+
+https://github.com/twknds/java-lotto
+    
 코드 여닫기 복붙
 ## 2022 - 
 <details>
