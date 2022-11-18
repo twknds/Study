@@ -345,3 +345,10 @@ ex) final 키워드가 설정된 Map 자료구조에 대한 put을 시도할경�
 
 * 일급 컬렉션안의 자료구조에 접근할수있는 메서드를 만들어주지않으면 해당 자료구조에 접근을 할 수 없기때문에 내부에서 건들지 않는한 불변성을 보장해줄수있음!
 
+## Array to List , List to Array
+
+- wrapper클래스의 경우에는 Arrays.toList()를 통해서 List로 형변환이 가능하지만 
+
+int 같은 primitive클래스의 경우에는 Arrays.toList()로 변환이 불가능하다.
+
+stream의 boxed() 메소드를 사용해서 변환이 가능하다.
