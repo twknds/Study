@@ -1702,6 +1702,187 @@ class Main {
 우테코 프리코스 3주차
 
 https://github.com/twknds/java-lotto
+
+
+## 2022 - 11-18
+
+https://school.programmers.co.kr/learn/courses/30/lessons/136797
+
+
+<details>
+<summary>code</summary>
+<div markdown="1">
+
+
+```java
+
+import java.util.*;
+class Solution {
+    public int[][] weight = {
+        {1,7,6,7,5,4,5,3,2,3},
+        {7,1,2,4,2,3,5,4,5,6},
+        {6,2,1,2,3,2,3,5,4,5},
+        {7,4,2,1,5,3,2,6,5,4},
+        {5,2,3,5,1,2,4,2,3,5},
+        {4,3,2,3,2,1,2,3,2,3},
+        {5,5,3,2,4,2,1,5,3,2},
+        {3,4,5,6,2,3,5,1,2,4},
+        {2,5,4,5,3,2,3,2,1,2},
+        {3,6,5,4,5,3,2,4,2,1}};
+    public Map<List<Integer>,Integer> dp = new HashMap<>();
+    public int dfs(int left,int right,char[] nums,int cur){
+        int answer = Integer.MAX_VALUE;
+        List<Integer> temp = new ArrayList<>();
+        temp.add(left);
+        temp.add(right);
+        temp.add(cur);
+        if(cur==nums.length){
+            return 0;
+        }
+        if(dp.containsKey(temp)){
+            return dp.get(temp);
+        }
+        int curNumber = (int)(nums[cur])-'0';
+        //System.out.println(left+" "+right+" "+cur);
+        int xCur = weight[right][curNumber];
+        int yCur = weight[left][curNumber];
+        if (left!=curNumber){
+            answer = Math.min(answer,xCur+dfs(left,curNumber,nums,cur+1));
+        }
+        if (right!=curNumber){
+            answer = Math.min(answer,yCur+dfs(curNumber,right,nums,cur+1));
+        }
+        dp.put(temp,answer);
+        return answer;
+    }
+    public int solution(String numbers) {
+        int answer = 0;
+        answer=dfs(4,6,numbers.toCharArray(),0);
+        return answer;
+    }
+}
+
+
+```
+
+
+</div>
+</details>
+
+
+https://school.programmers.co.kr/learn/courses/30/lessons/133500
+
+<details>
+<summary>code</summary>
+<div markdown="1">
+
+
+```java
+
+import java.util.*;
+class Solution {
+    public int[] dfs(int root,Map<Integer,Set<Integer>> graph,int[] visit){
+        visit[root] = 1;
+        int[] temp = {0,0};
+        boolean flag = false;
+        for (int child : graph.get(root)){
+            if(visit[child]==1){
+                continue;
+            }
+            int[] childResult = dfs(child,graph,visit);
+            temp[0]+=(childResult[0]);
+            if(childResult[1]==0){
+                flag=true;  
+            }
+        }
+        if(flag==true){
+            temp[0]+=1;
+            temp[1]=1;
+        }
+        //System.out.println(root+" "+flag+" "+temp[0]);
+        return temp;
+    }
+    public int solution(int n, int[][] lighthouse) {
+        int answer = 0;
+        Map<Integer,Set<Integer>> graph = new HashMap<>();
+        int[] visit = new int[n+1];
+        for (int i=1;i<=n;i++){
+            graph.put(i,new HashSet<Integer>());
+        }
+        for (int[] house : lighthouse){
+            graph.get(house[0]).add(house[1]);
+            graph.get(house[1]).add(house[0]);
+        }
+        //System.out.println(graph);
+        return dfs(1,graph,visit)[0];
+    }
+}
+
+
+```
+
+
+</div>
+</details>
+
+
+https://school.programmers.co.kr/learn/courses/30/lessons/132266
+
+<details>
+<summary>code</summary>
+<div markdown="1">
+
+
+```java
+
+import java.util.*;
+class Solution {
+    public List<Integer> solution(int n, int[][] roads, int[] sources, int destination) {
+        List<Integer> answer = new LinkedList<>();
+        int[] dis = new int[n+1];
+        int[] visit = new int[n+1];
+        int idx = 0;
+        Map<Integer,Set<Integer>> tree = new HashMap<>();
+        for (int i =1;i<=n;i++){
+            dis[i]=Integer.MAX_VALUE;
+            tree.put(i,new HashSet<Integer>());
+            visit[i]=0;
+        }
+        for (int[] road:roads){
+            tree.get(road[0]).add(road[1]);
+            tree.get(road[1]).add(road[0]);
+        }        
+        dis[destination]=0;
+        int cnt = visit.length;
+        Queue<Integer> q = new LinkedList<>();
+        q.add(destination);
+        while(!q.isEmpty()){
+            idx = q.poll();
+            visit[idx]=1;
+            for(int node:tree.get(idx)){
+                if(dis[node]>dis[idx]+1){
+                    dis[node]=dis[idx]+1;
+                    q.add(node);
+                }
+            }
+        }
+        for(int i =0;i<sources.length;i++){
+            if(dis[sources[i]]!=Integer.MAX_VALUE){
+                answer.add(dis[sources[i]]);
+            }
+            else{
+                answer.add(-1);
+            }
+        }
+        return answer;
+    }
+}
+
+```
+
+
+</div>
+</details>
     
 코드 여닫기 복붙
 ## 2022 - 
