@@ -1884,6 +1884,192 @@ class Solution {
 </div>
 </details>
     
+    
+코드 여닫기 복붙
+## 2022 - 11 - 21
+
+프리코스 4주차
+
+https://github.com/twknds/java-bridge
+
+
+## 2022 - 11 - 23
+
+https://school.programmers.co.kr/learn/courses/30/lessons/131702
+
+
+
+<details>
+<summary>code</summary>
+<div markdown="1">
+
+
+```java
+
+class Solution {
+    public int solution(int[][] clockHands) {
+        int answer = Integer.MAX_VALUE;
+        int max = 1 << clockHands.length * 2;
+        int[] rotate = new int[clockHands.length];
+        for (int stage = 0; stage < max; stage++) {
+            int score = 0;
+            rotate[0] = stage;
+            boolean clear = true;
+            for (int y = 1; y < clockHands.length; y++) {
+                rotate[y] = 0;
+                for(int x = 0; x < clockHands[0].length; x++) {
+                    int up = y - 2 >= 0 ? 3 & (rotate[y-2] >> (clockHands[0].length - 1 -x) * 2) : 0;
+                    int left = x - 1 >= 0 ? 3 & (rotate[y-1] >> (clockHands[0].length - x) * 2): 0;
+                    int right = x + 1 < clockHands.length ? 3 & (rotate[y-1] >> (clockHands[0].length - 2 - x) * 2): 0;
+                    int mid = 3 & (rotate[y - 1] >> (clockHands[0].length - 1 -x) * 2);
+                    int curr = (up + left + right + mid+ clockHands[y-1][x]) % 4;
+                    int temp = (4 - curr) % 4;
+                    rotate[y] += temp << (clockHands[0].length - 1 -x) * 2;
+                    score += temp;
+                }
+            }
+            for(int x = 0; x < clockHands[0].length; x++) {
+                score += 3 & (rotate[0] >> (clockHands[0].length - 1 - x) * 2);
+
+                int up = 3 & (rotate[clockHands.length - 2] >> (clockHands[0].length - 1 -x) * 2);
+                int left = x - 1 >= 0 ? 3 & (rotate[clockHands.length - 1] >> (clockHands[0].length - x) * 2): 0;
+                int right = x + 1 < clockHands.length ? 3 & (rotate[clockHands.length - 1] >> (clockHands[0].length - 2 - x) * 2): 0;
+                int mid = 3 & (rotate[clockHands.length - 1] >> (clockHands[0].length - 1 -x) * 2);
+                int curr = (up + left + right + mid+ clockHands[clockHands.length - 1][x]) % 4;
+                if(curr != 0) {
+                    clear = false;
+                }
+            }
+            if(clear) {
+                answer = Math.min(score ,answer);
+            }
+        }
+        return answer;
+    }
+}
+
+```
+
+
+</div>
+</details>
+
+https://school.programmers.co.kr/learn/courses/30/lessons/131129
+
+dp문제
+
+<details>
+<summary>code</summary>
+<div markdown="1">
+
+
+```java
+
+class Solution {
+    public void oneCheck(int target, int[][] dp){ // 1-20
+        int cur = target-20 >= 0 ? target-20 : 0;
+        if (dp[target][0]>dp[cur][0]+1){
+            dp[target][0]=dp[cur][0]+1;
+            dp[target][1]=dp[cur][1]+1;
+        }
+        else if(dp[target][0]==dp[cur][0]+1 && dp[target][1]<dp[cur][1]+1){
+            dp[target][0]=dp[cur][0]+1;
+            dp[target][1]=dp[cur][1]+1;
+        }
+    } 
+    public void bullCheck(int target, int[][] dp){ // 50
+        int cur = target-50 >= 0 ? target-50 : 0;
+        if (dp[target][0]>dp[cur][0]+1){
+            dp[target][0]=dp[cur][0]+1;
+            dp[target][1]=dp[cur][1]+1;
+        }
+        else if(dp[target][0]==dp[cur][0]+1 && dp[target][1]<dp[cur][1]+1){
+            dp[target][0]=dp[cur][0]+1;
+            dp[target][1]=dp[cur][1]+1;
+        }
+    }
+    public void doubleCheck(int target, int[][] dp){ // 22-40
+        int cur = target-40 >= 0 ? target-40 : 0;
+        if (dp[target][0]>dp[cur][0]+1){
+            dp[target][0]=dp[cur][0]+1;
+            dp[target][1]=dp[cur][1];
+        }
+        else if(dp[target][0]==dp[cur][0]+1 && dp[target][1]<dp[cur][1]){
+            dp[target][0]=dp[cur][0]+1;
+            dp[target][1]=dp[cur][1];
+        }
+    }
+    public void tripleCheck(int target, int[][] dp){ // 21-60
+        int cur = target-60 >= 0 ? target-60 : 0;
+        if (dp[target][0]>dp[cur][0]+1){
+            dp[target][0]=dp[cur][0]+1;
+            dp[target][1]=dp[cur][1];
+        }
+        else if(dp[target][0]==dp[cur][0]+1 && dp[target][1]<dp[cur][1]){
+            dp[target][0]=dp[cur][0]+1;
+            dp[target][1]=dp[cur][1];
+        }
+    }
+    public int[] solution(int target) {
+        int[] answer = new int[2];
+        int[][] dp = new int[target+1][2];
+        for (int i = 1;i<=target;i++){
+            dp[i][0]=Integer.MAX_VALUE;
+            dp[i][1]=Integer.MAX_VALUE;
+        }
+        for (int i=1;i<=60;i++){
+            if (i>target){
+                break;
+            }
+            if(i<=20){
+                dp[i][0]=1;
+                dp[i][1]=1;
+            }
+            else if(i%50==0){
+                dp[i][0]=1;
+                dp[i][1]=1;
+            }
+            else if(i%2==0 && i<=40){
+                dp[i][0]=1;
+                dp[i][1]=0;
+            }
+            else if(i%3==0 && i<=60){
+                dp[i][0]=1;
+                dp[i][1]=0;
+            }
+            else if (i<=40){
+                dp[i][0]=2;
+                dp[i][1]=2;
+            }
+            else if (i>=50){
+                dp[i][0]=2;
+                dp[i][1]=2;
+            }
+            else if (i<=60){
+                dp[i][0]=2;
+                dp[i][1]=1;
+            }
+        }
+        for (int i = 61;i<=target;i++){
+            tripleCheck(i,dp);
+            bullCheck(i,dp);
+            doubleCheck(i,dp);
+            oneCheck(i,dp);    
+            //System.out.println(i+","+dp[i][0]+","+dp[i][1]);
+        }
+        answer[0]=dp[target][0];
+        answer[1]=dp[target][1];
+        return answer;
+    }
+}
+
+
+```
+
+
+</div>
+</details>
+
 코드 여닫기 복붙
 ## 2022 - 
 <details>
