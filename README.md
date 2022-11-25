@@ -1,3 +1,50 @@
-공부내용을 기록할 깃허브
+준비해야될 내용
 
-계속해서 추가할 예정
+## 스프링
+
+
+
+## jwt 
+
+
+
+## hal-il준비 
+
+## 코드리뷰
+
+## erd
+
+## jsp
+
+## oracle SQL
+
+## jdbc
+
+## apache tomcat
+
+## 서블릿
+
+## nginx 
+
+## 무중단배포 
+
+## jenkins 
+
+## aws 
+
+## n+1문제
+
+## aop 
+
+## psa 
+
+## di 
+
+## junit 
+
+## reflection
+
+## java8 
+
+## java11
+
