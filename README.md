@@ -22,6 +22,8 @@ old영역으로 넘어가는 객체의 수를 최대한 줄이는것이 관건
 
 ## jwt 
 
+header,payload,tail로 구성된다 header는 토큰의 종류를 나타냄 payload는 정보 tail은 암호화
+
 access token , refresh token은 서버단에 저장되는 암호화 데이터로 front단에서 구글 ouath api를 사용해 유저의 구글아이디가 유효할시 code를 발급받게 되고 해당 code를 server로 
 
 회원가입 요청을 하게 되면 email과 nickname값을 user객체로 포장해서 저장한뒤 accessT, refreshT를 발급하고 해당 토큰을 front로 반환해준다.
