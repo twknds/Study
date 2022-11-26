@@ -22,7 +22,17 @@ old영역으로 넘어가는 객체의 수를 최대한 줄이는것이 관건
 
 ## jwt 
 
+access token , refresh token은 서버단에 저장되는 암호화 데이터로 front단에서 구글 ouath api를 사용해 유저의 구글아이디가 유효할시 code를 발급받게 되고 해당 code를 server로 
 
+회원가입 요청을 하게 되면 email과 nickname값을 user객체로 포장해서 저장한뒤 accessT, refreshT를 발급하고 해당 토큰을 front로 반환해준다.
+
+로그인 요청시 api요청 code를 보내고 해당 code를 파싱해서 email값을 얻고 레포지토리에서 조회후 토큰들 반환
+
+서비스 요청시마다 token유효를 체크하고(인터셉터로 가로챔) accessT ,refreshT 유효성 검증
+
+accessT 유효하지않고 refreshT 유효하지 않을시 Exception
+
+인터셉터에서 예외발생하지 않을시 Controller로 request들 도착
 
 ## 컨테이너
 
