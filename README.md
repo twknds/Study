@@ -21,6 +21,16 @@ jdk 9 이후로는 g1 gc가 기본 mark-sweep and compact방식
 
 old영역으로 넘어가는 객체의 수를 최대한 줄이는것이 관건
 
+@transactional의 분해 
+
+readonly시 성능향상의 이유? 변경감지를 위한 스냅샷 세션을 저장할필요가 없어서 성능이 향상된다
+
+@transactional 이 명시되면spring aop에서는 transactional 프록시 객체를 호출하게 되고 해당 객체내에서 jdbc transaction을 실행하게 된다.
+
+jdbc transaction 처리의 경우 트랜잭션이 실행되면 해당 트랜잭션이 시행되는동안 db에 대한 쿼리 결과를 임시로 저장하고 트랜잭션이 끝난이후 db에 반영하게 된다.
+
+이과정에서 오류가 발생할시 트랜잭션동안 일어난 모든결과 롤백, 그리고 두개이상의 db에대한 트랜잭션 처리시에는 jta를 사용해야 한다.
+
 ## jwt 
 
 header,payload,signature로 구성된다 header는 토큰의 종류와 해시알고리즘 종류를 나타냄 payload는 claims 증 사용자의 정보 및 권한, key-value형태이다 signature는 header, payload를 b64로 암호화하고 이를 대상으로 비밀키로 암호화한것이다.
