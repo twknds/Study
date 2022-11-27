@@ -206,13 +206,11 @@ IPv4 주소의 처음 세개의 octets 또는 전체 IPv6 주소가 해시 값�
 
 젠킨스 컨테이너를 두개두고 nginx로 평소에는 develop브랜치를 가르치는 젠킨스컨테이너를 지정해놓고 코드변경시에는 update브랜치를 
 
-## aws 
-
-
-
 ## n+1문제
 
+jpa를 사용하면서 연관관계가 있는 쿼리를 조회할시 발생하는 문제로 
 
+JPA가 JPQL을 분석해서 SQL을 생성할 때는 글로벌 Fetch 전략을 참고하지 않고 오직 JPQL 자체만을 사용하기 때문에 발생한다.
 
 ## jsp
 
@@ -227,9 +225,68 @@ Exception관리 - checked, unchecked 두개의 차이는 컴파일과정에서 �
 
 ## reflection
 
+Reflection이란?
+
+구체적인 클래스 타입을 알지 못해도 그 클래스의 메소드, 타입, 변수들에 접근할 수 있도록 해주는 자바 API
+
+런타임에 지금 실행되고 있는 클래스를 가져와서 실행해야하는 경우
+
+동적으로 객체를 생성하고 메서드를 호출하는 방법
+
+자바의 리플렉션은 클래스, 인터페이스, 메소드들을 찾을 수 있고, 객체를 생성하거나 변수를 변경하거나 메소드를 호출할 수 있다.
+
+
+어떤 경우에 사용되나?
+
+코드를 작성할 시점에는 어떤 타입의 클래스를 사용할지 모르지만, 런타임 시점에 지금 실행되고 있는 클래스를 가져와서 실행해야 하는 경우
+
+프레임워크나 IDE에서 이런 동적인 바인딩을 이용한 기능을 제공한다. intelliJ의 자동완성 기능, 스프링의 어노테이션이 리플렉션을 이용한 기능이다.
+
 ## java8 
 
+Lambda
+
+stream
+
+interface default method
+
+Optional
+
+new Date and Time API(LocalDateTime, …)
+
+## java9
+
+컬렉션 컬렉션에는 list, set, map을 쉽게 구성할 수 있는 몇 가지 추가 기능(list.of,map.of ... )
+
+stream메서드 추가
+
+try-with-resources 문 또는 다이아몬드 연산자(<>) 확장, HTTP클라이언트와 같은 몇 가지 다른 개선 사항 존재
+
+## java10
+
+가비지 컬렉션 등과 같은 Java 10에 몇 가지 변경 사항이 존재
+
+개발자로서 보게 될 유일한 실제 변경 사항은 로컬 변수 유형 추론이라고도 하는 "var" 키워드의 도입
+
+var 키워드
+병렬 처리 가비지 컬렉션 도입으로 인한 성능 향상
+JVM 힙 영역을 시스템 메모리가 아닌 다른 종류의 메모리에도 할당 가능
+
+
 ## java11
+
+Oracle JDK와 OpenJDK 통합
+Oracle JDK가 구독형 유료 모델로 전환
+서드파티 JDK 로의 이전 필요
+lambda 지역변수 사용법 변경
+기타 추가
+
+## java17
+
+Pattern Matching for switch (Preview)
+Sealed Classes (Finalized)
+Foreign Function & Memory API (Incubator)
+Deprecating the Security Manager
 
 ## DB
 
