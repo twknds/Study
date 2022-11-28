@@ -309,3 +309,17 @@ Deprecating the Security Manager
 - 인덱스
 
 - 격리레벨
+
+## Redis
+
+redis vs memcached vs dynamoDB
+
+Redis 싱글스레드이며 다양한 자료구조 지원 및 스냅샷(RDB)방식으로 인해서 서버 장애시 데이터보존
+
+memcached 멀티스레드이며 메모리에만 데이터저장 서버 장애시 데이터 날라감
+
+dynamoDB 관리가 매우 편리하고 매우빠르지만 마이너한 데이터베이스라 관련 라이브러리 지원이 없다 아직.
+
+캐시만을 위한 자료구조를 원하는 것이라면 redis가 적합할것
+
+mongoDB와 같은 영구저장형 nosql저장소를 원하는것이라면 dynamoDB를 선택할것
