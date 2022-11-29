@@ -394,3 +394,43 @@ dynamoDB 관리가 매우 편리하고 매우빠르지만 마이너한 데이터
 캐시만을 위한 자료구조를 원하는 것이라면 redis가 적합할것
 
 mongoDB와 같은 영구저장형 nosql저장소를 원하는것이라면 dynamoDB를 선택할것
+
+
+
+### 주소창에 www.google.co.kr을 검색하면 일어나는 일
+
+
+1. 사용자가 웹브라우저 검색창에 www.google.com 입력
+2. 웹브라우저는 캐싱된 DNS 기록들을 통해 해당 도메인주소와 대응하는 IP주소를 확인
+이 단계에서 캐싱된 기록에 없을 경우, 다음단계로 넘어간다.
+
+3. 웹브라우저가 HTTP를 사용하여 DNS에게 입력된 도메인 주소를 요청
+4. DNS가 웹브라우저에게 찾는 사이트의 IP주소를 응답
+ISP(Internet Service Provider)의 DNS서버가 호스팅하고 있는 서버의 IP주소를 찾기 위해 DNS query를 날린다.
+
+DNS query의 목적
+DNS 서버들을 검색해서 해당 사이트의 IP주소를 찾는데에 있다.
+IP주소를 찾을 때 까지 DNS서버에서 다른 DNS서버를 오가며 에러가 날때까지 반복적으로 검색한다. = recursive search
+DNS recursor(ISP의 DNS서버)는 name server들에게 물어물어 올바른 IP주소를 찾는데에 책임이 있다. name server는 도메인 이름 구조에 기반해서 주소를 검색하게 되는데, 예를 들어 설명해보자면,
+
+
+'www.google.com' 주소에 대해 검색할 때,
+1. DNS recursor가 root name server에 연락
+2. .com 도메인 name server로 리다이렉트
+3. google.com name server로 리다이렉트
+4. 최종적으로 DNS기록에서 'www.google.com' 에 매칭되는 IP주소 찾기
+5. 찾은 주소를 DNS recursor로 보내기
+이 모든 요청들과 DNS recursor, IP주소는 작은 데이터 패킷을 통해 보내진다.
+원하는 DNS기록을 가진 DNS서버에 도달할 때까지
+클라이언트 ↔️ 서버를 여러번 오가는 과정을 거친다.
+
+5. 웹브라우저가 웹서버에게 IP주소를 이용하여 html문서를 요청
+TCP로 연결이 되면, 브라우저는 GET요청을 통해 서버에게 www.google.com의 웹페이지를 요구한다.
+
+6. 웹어플리케이션서버(WAS)와 데이터베이스에서 우선 웹페이지 작업을 처리
+
+7. 위의 작업처리 결과를 웹서버로 전송
+8. 웹서버는 웹브라우저에게 html 문서결과를 응답
+response는 status code로 서버 요청에 따른 상태를 보낸다.
+
+9. 웹브라우저는 화면에 웹페이지 내용물 출력
