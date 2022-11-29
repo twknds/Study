@@ -942,3 +942,11 @@ Layer3, Layer4 부하 분산
 listen : IP
 
 target : IP, Instance
+
+## TCP/UDP HTTP
+
+TCP : 신뢰성과 패킷의 무결함 (3 ways  handshaking, 4 ways handshaking)
+
+UDP : 데이터 전송의 속도가 빠름 , 커스텀이 용이해서 HTTP3에서 선택됐음
+
+HTTP : HTTP2까지는 TCP 위에서 작동했으나 ,HTTP3부터는 UDP가 선택됐음, HTTP자체는 stateless하나 브라우저나 서버단에서 쿠키나 세션을 통해서 상태를 저장한다.
