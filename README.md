@@ -593,6 +593,14 @@ https://evan-moon.github.io:8000	?	브라우저의 구현에 따라 다름
 
 ## REST란?
 
+https://restapitutorial.com/
+
+https://restfulapi.net/
+
+https://www.smashingmagazine.com/2018/01/understanding-using-rest-api/
+
+https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm
+
 - REST 정의
 
 자원(resource)의 표현(representation)에 의한 상태 전달
