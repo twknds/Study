@@ -202,6 +202,123 @@ B. 따라서 wait()메소드를 호출할 때에는 "반드시 loop문으로 구
 
 
 
+- Compare And Swap
+
+멀티 스레드 환경, 멀티 코어 환경에서 각 CPU는 메인 메모리에서 변숫값을 참조하는 게 아닌 각 CPU의 캐시 영역에서 메모리를 값을 참조하게 된다.
+
+이때, 메인 메모리에 저장된 값과 CPU 캐시에 저장된 값이 다른 경우가 있다. 이를 가시성 문제라고 한다.
+
+그래서 사용되는 것이 CAS 알고리즘이다.
+
+ 
+
+현재 스레드에 저장된 값과 메인 메모리에 저장된 값을 비교하여
+일치하는 경우 새로운 값으로 교체, 일치하지 않는 다면 실패하고 재시도를 한다.
+
+이렇게 처리되면 CPU 캐시에서 잘못된 값을 참조하는 가시성 문제가 해결된다.
+
+ 
+
+java.util.concurrent.atomic 패키지에 정의된 클래스들은 Atomic으로 시작한다.
+
+단어 뜻 그대로 통상적으로 알려진 가장 작은 단위인 원자에 빗댄 것이다.
+
+대표적으로 AtomicInteger, AtomicIntegerArray, AtomicLong, AtomicDouble, AtomicBoolean DoubleAdder 등이 있다.
+
+- AtomicInteger 란?
+
+
+AtomicInteger란 원자성을 보장하는 Interger를 의미한다. 멀티 쓰레드 환경에서 동기화 문제를 별도의 synchronized 키워드 없이 해결하기 위해서 고안된 방법이다. (일반적으로 동기화 문제는 synchronized, Atomic, volatile 세가지 키워드로 해결한다.) 
+
+synchronized은 특정 Thread가 해당 블락 전체를 lock 하기 때문에 다른 Thread는 아무작업을 못하고 기다리는 상황이 되어 낭비가 심하다. 그래서 NonBlocking하면서 동기화 문제를 해결하기 위한 방법이 Atomic이다. AtomicInterger 동작의 핵심 원리는 바로 CAS알고리즘(Compare and Swap)에 있다.
+
+```java
+
+public class AtomicInteger extends Number implements java.io.Serializable {
+	
+    private volatile int value;
+
+    public final int incrementAndGet() {
+        int current;
+        int next;
+        do {
+            current = get();
+            next = current + 1;
+	} while (!compareAndSet(current, next)); 
+	return next;
+    }
+	
+    public final boolean compareAndSet(int expect, int update) {
+        return unsafe.compareAndSwapInt(this, valueOffset, expect, update);
+    }	
+}
+
+```
+
+중요한 것은 incrementAndGet() 메소드 내부에서 CAS알고리즘의 로직을 구현하고 있다. compareAndSet()의 결과 리턴 받아서 성공할때까지 while을 통해서 무한 루프를 돈다. 
+
+compareAndSet()내부에서는 compareAndSwapInt()를 호출하여 메모리에 저장되어진 값과 현재 CPU캐시에 저장된 expect 값을 비교하여 동일한 경우만 변경하려는 값 update로 쓰기를 수행한다.
+
+
+다른 AtomicInteger 메소드 들도 거의 유사한 패턴으로 구현되어 있다. 또한 눈여겨 볼 점은 volatile int value; 선언부 인데 voliatile는 변수의 가시성 문제를 해결하기 위해서 사용된다. 
+
+volatile 키워드가 붙어 있는 객체는 CPU캐시가 아닌 메인 메모리에서 값을 참조해온다. 
+그렇다면 굳이 CAS알고리즘을 적용하지 않아도 문제가 없는 것 아닐까? 그렇지 않다. 
+volatile 키워드는 오직 한개의 쓰레드에서 쓰기작업을 할 때, 그리고 다른 쓰레드는 읽기 작업만 할 때 안정성을 보장한다. 그런데 AtomicIntger는 여러 쓰레드에서 읽기/쓰기 작업을 병행한다. 그래서 CAS알고리즘이라는 2중의 안정장치를 설치해 놓은 것이다.
+
+
+- Volatile
+
+자바 변수를 메인 메모리에 저장하겠다고 명시하는 키워드이다.
+
+매번 변수의 값을 읽을 때마다 CPU 캐시에 저장된 값이 아니라 메인 메모리에서 읽는 것이며,
+
+또한 변수의 값을 쓸 때마다 메인 메모리에 작성하는 것이다.
+
+ 
+
+이 또한 앞서 설명한 가시성 문제를 해결하는 방법으로 볼 수 있다.
+
+- 락(lock)
+
+
+synchronized 부분에서 설명했듯, 모든 객체에는 락(lock)이 하나씩 있는데 이 락(lock)을 가지고 있는 스레드만 해당 객체의 임계 영역 코드와 관련된 작업을 할 수 있다.
+
+그렇지만 여러 스레드가 경쟁 상태(Race Condition)에 있을 때 어떤 스레드가 진입권한을 획득할지 순서를 보장하진 않는다. 이를 '암시적(Implicit) 락'이라고 한다.
+
+Lock 클래스는 lock() 메서드와 unlock() 메서드를 호출함으로써 어떤 스레드가 먼저 락을 획득하게 될지 순서를 지정할 수 있다. 이를 '명시적(explicit) 락'이라고 한다.
+
+Lock 클래스는 java.util.concurrent.locks 패키지에서 제공한다.
+
+
+💡 경쟁 상태 (Race Condition)
+
+공유하는 자원이 있는데 공유하는 자원에 접근하는 여러 스레드 중 어떤 것이 먼저 접근하냐에 따라 결과가 달라질 수 있는 경우가 있다. 이를 경쟁 상태(Race Condition)에 의해 발생되었다고 하기도 한다.
+
+synchronized와 Lock의 차이점 - 공정성(Fairness)
+synchronized와 Lock을 구분 짓는 키워드는 공정성(Fairness)이다.
+
+공정성이란 모든 스레드가 자신의 작업을 수행할 기회를 공평하게 갖는 것을 의미한다.
+
+공정한 방법에선 큐 안에서 스레드들이 무조건 순서를 지켜가며 락을 확보한다.
+
+불공정한 방법에선 만약 특정 스레드에 락이 필요한 순간 release가 발생하면 대기열을 건너뛰는 새치기 같은 일이 벌어지게 된다.
+
+ 
+
+💡 Starvation(기아 상태)
+
+다른 스레드들에게 우선순위가 밀려 자원을 계속해서 할당받지 못하는 스레드가 존재하는 상황을 말하며, 이 기아 상태를 해결하기 위해 공정성이 필요하다.
+
+ 
+
+synchronized는 공정성을 지원하지 않아서 후순위인 스레드의 실행이 안될 수 있는 반면에
+
+ReentrantLock은 생성자의 boolean 인자를 통해 공정/불공정을 설정할 수 있다.
+
+
+
+
 - 실행 순서의 동기화
 
 
