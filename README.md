@@ -514,6 +514,19 @@ System Call 매개변수 전송
 
 전달되는 매개변수들의 개수나 길이를 제한하지 않기 때문에 2번 방법을 많이 사용한다.
 
+### PCB ? TCB? PC Register?
 
+일단 Program Counter register는 CPU에 있습니다. 멀티프로세스 환경에서 context switch가 되면서 현재까지 진행하던 process의 문맥(context)을 어딘가에 저장해야 되기 때문에, PCB에 저장한다고 했죠. PCB에 PC값도 저장을 하게 됩니다. 그리고 CPU에 있는 PC register에는 새롭게 진행할 process의 PCB에 적혀있는 PC값을 갖게 됩니다. 
 
+ 지금까지의 설명은 single thread, multi process 환경에서의 설명입니다. 
+
+ 
+
+ multi thread, multi process 환경에서는 PC 값을 PCB(process control block)가 아닌 TCB(thread control block)에 저장을 합니다. 프로세스 A 에  a,b,c 쓰레드가 있다고 생각해볼게요. a, b, c쓰레드에 해당하는 정보를 저장해두는 a,b,c TCB는 A PCB에 연결이 되어 있습니다. PCB에는 PC값을 저장하지 않고, TCB에서 각각 저장을 해두고 있습니다. 이 때도 TCB는 PC 값을 저장하고 있지만 PC register는 CPU에 속해있습니다. 또한 Context switch가 될 때마다 TCB에 저장되어있는 PC 값을 PC register에 저장을 하는 것입니다. 
+
+ 
+
+PCB는 주로 커널에 저장되어있고 PC register는 스레드 마다 있는것이 맞나요?
+
+라고 질문해주셨는데, PCB는 커널에 저장해두는 것이 맞고, 각 쓰레드의 TCB에 PC 값을 저장해두고 있는 것입니다. 'a' thread 에서 'b' thread로 context switch가 일어나면, PC register값을 'a' Thread TCB에 저장하고, 'b' Thread TCB의 PC값을 PC register에 저장을 하게 됩니다. CPU입장에서는 PC register에 적힌것만 참조하기 때문에 PC register가 새롭게 가리키는 'b' thread에 해당하는 code영역을 참조하여 실행을 하게 되겠죠.
 
