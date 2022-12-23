@@ -70,4 +70,30 @@ https://osb330.tistory.com/5
 
 성능만을 좇아서 개발을 진행하면 객체지향원칙을 어길가능성이 있고 이는 나쁜 결과를 나을수도 있기때문에 성능만을 좇기보다는 객체지향의 원칙을 지키는 선에서 좇는것이 좋다.
 
+## 멀티 스레드환경에서 캐시가 끼치는 영향
 
+```java
+
+import java.util.concurrent.TimeUnit;
+
+public class Main {
+    private static boolean stopRequested;
+    public static void main(String[] args) throws InterruptedException{
+        System.out.println("hello world!");
+        Thread backgroundThread = new Thread(() -> {
+            int i=0;
+            while(!stopRequested){
+                i++;
+            }
+        });
+        backgroundThread.start();
+        TimeUnit.SECONDS.sleep(1);
+        stopRequested = true;
+    }
+}
+
+```
+해당 코드에서 메인스레드는 request값을 true로 바꿔주지만 backgroundthread는 cpu캐시를 참조하고있고, 최근에 참조된값이기 때문에 바뀌지않고 계속 해당 캐시값을 참조하기때문에 무한루프가 돌아가게 된다.
+
+이를 방지하기위해서는 atomicInteger, concurrentHashMap등을 활용할수있겠다.
+혹은Volatile을 사용해 바로 메모리를 참조하게 할수도있다.
